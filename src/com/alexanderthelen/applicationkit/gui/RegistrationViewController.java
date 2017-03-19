@@ -7,6 +7,7 @@ import com.alexanderthelen.applicationkit.database.Data;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Control;
 
 /**
  * Basisklasse aller Registrierungsformulare.
@@ -31,7 +32,9 @@ public abstract class RegistrationViewController extends FormViewController {
 	 *            URL des Views zur fxml-Datei.
 	 */
 	protected RegistrationViewController(String name, URL urlOfView) {
+
 		super(name, urlOfView);
+
 	}
 
 	/**

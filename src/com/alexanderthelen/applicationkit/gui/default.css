@@ -20,3 +20,5 @@
 .tree-cell:selected {
     -fx-border-color: black;
 }
+
+ .required { -fx-border-color: red; }

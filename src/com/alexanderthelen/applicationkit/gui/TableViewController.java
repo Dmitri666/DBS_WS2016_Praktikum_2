@@ -167,7 +167,13 @@ public class TableViewController extends ViewController {
         tableView.setItems(table.getSortedRows());
 
         tableView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> selectedRow = newValue);
+                .addListener((observable, oldValue, newValue) ->
+
+                        {
+                            selectedRow = newValue;
+                            Object data = Application.getInstance().getData();//.containsKey(this.table.getColumns().keySet().f.get())
+                        }
+                );
 
         tableView.setRowFactory(param -> {
             TableRow<Row> row = new TableRow<>();

@@ -8,12 +8,19 @@ import java.sql.SQLException;
 public class ActorsOnConcerns extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        return null;
+        String selectQuery = "SELECT Benutzername AS  \"Schauspieler\" ,Bezeichnung AS  \"Medienkonzern\" FROM Steht_unter_Vertrag ";
+        if ( filter != null && ! filter .isEmpty() )
+        {
+            selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
+        }
+        return selectQuery;
     }
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return null;
+        return "SELECT Genre_Bezeichnung AS  \"Bezeichnung von Genre\" ,Video_Bezeichnung AS  \"Bezeichnung von Video\" FROM Steht_unter_Vertrag " + "" +
+                " WHERE Genre_Bezeichnung = '" + data.get("Steht_unter_Vertrag.Bezeichnung von Genre") + "' AND Video_Bezeichnung = '"  + data.get("Steht_unter_Vertrag.Bezeichnung von Video") + "'" ;
+
     }
 
     @Override

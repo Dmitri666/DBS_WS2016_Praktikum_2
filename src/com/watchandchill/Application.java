@@ -17,10 +17,10 @@ public class Application extends com.alexanderthelen.applicationkit.Application 
 
     @Override
     public void start() throws Exception {
-        setConnection(new Connection(Paths.get("watchandchill.db")));
+        setConnection(new Connection(Paths.get("netflix.db")));
 
         WindowController mainWindowController = WindowController.createWithName("window");
-        mainWindowController.setTitle("WatchAndChill");
+        mainWindowController.setTitle("Netflix");
 
         AuthenticationViewController authenticationViewController = AuthenticationViewController
                 .createWithName("authentication");
@@ -36,7 +36,7 @@ public class Application extends com.alexanderthelen.applicationkit.Application 
         authenticationViewController.setRegistrationViewController(registrationViewController);
 
         MasterDetailViewController mainViewController = MasterDetailViewController.createWithName("main");
-        mainViewController.setTitle("WatchAndChill");
+        mainViewController.setTitle("Netflix");
         mainViewController.setMasterViewController(MasterViewController.createWithName("master"));
         authenticationViewController.setMainViewController(mainViewController);
 

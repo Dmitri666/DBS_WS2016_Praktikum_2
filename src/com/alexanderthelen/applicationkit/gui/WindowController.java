@@ -322,6 +322,8 @@ public class WindowController extends Controller {
 		windowController.getWindow().initStyle(StageStyle.UTILITY);
 		windowController.getWindow().initOwner(window);
 		windowController.getWindow().initModality(Modality.WINDOW_MODAL);
+		windowController.getWindow().setFullScreen(false);
+		windowController.getWindow().setMaximized(false);
 		windowController.show();
 	}
 

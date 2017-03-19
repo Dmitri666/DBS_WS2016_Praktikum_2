@@ -10,16 +10,16 @@ import java.sql.SQLException;
 public class Watchlists extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT ID, Bezeichnung AS Titel, Privat AS \"Privat?\", Premiumnutzer AS Nutzer FROM Watchlist";
+        String selectQuery = "SELECT ID, Bezeichnung AS Titel, Privatspharestatus AS \"Privat?\", Benutzername AS \"Premiumnutzer\" FROM Watchlist";
         if (filter != null && !filter.isEmpty()) {
-            selectQuery += " WHERE Premiumnutzer LIKE '%" + filter + "%'";
+            selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
         }
         return selectQuery;
     }
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        String selectQuery = "SELECT ID AS \"ID von Watchlist\", Bezeichnung, Privat, Premiumnutzer FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
+        String selectQuery = "SELECT Bezeichnung, Privatspharestatus AS \"Privat\"  FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
         return selectQuery;
     }
 
@@ -29,7 +29,7 @@ public class Watchlists extends Table {
             throw new SQLException("Nicht die notwendigen Rechte.");
         }
 
-        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Watchlist(Bezeichnung, Privat, Premiumnutzer) VALUES (?, ?, ?)");
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Watchlist(Bezeichnung, Privatspharestatus, Benutzername) VALUES (?, ?, ?)");
         preparedStatement.setObject(1, data.get("Watchlist.Bezeichnung"));
         preparedStatement.setObject(2, data.get("Watchlist.Privat"));
         preparedStatement.setObject(3, Application.getInstance().getData().get("username"));
@@ -49,7 +49,7 @@ public class Watchlists extends Table {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Watchlist SET Bezeichnung = ?, Privat = ? WHERE ID = ?");
         preparedStatement.setObject(1, newData.get("Watchlist.Bezeichnung"));
         preparedStatement.setObject(2, newData.get("Watchlist.Privat"));
-        preparedStatement.setObject(3, oldData.get("Watchlist.ID von Watchlist"));
+        preparedStatement.setObject(3, oldData.get("Watchlist.ID"));
         preparedStatement.executeUpdate();
     }
 

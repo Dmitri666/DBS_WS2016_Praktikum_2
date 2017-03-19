@@ -5,12 +5,19 @@ import java.util.ArrayList;
 
 import com.alexanderthelen.applicationkit.database.Data;
 
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Border;
+
+import javax.xml.bind.Marshaller;
 
 public class RegistrationViewController extends com.alexanderthelen.applicationkit.gui.RegistrationViewController {
 	@FXML
@@ -42,6 +49,8 @@ public class RegistrationViewController extends com.alexanderthelen.applicationk
 	@FXML
 	protected ToggleGroup premiumToggleGroup;
 
+	private String required = "required";
+
 	public static RegistrationViewController createWithName(String name) throws IOException {
 		RegistrationViewController viewController = new RegistrationViewController(name);
 		viewController.loadView();
@@ -62,24 +71,59 @@ public class RegistrationViewController extends com.alexanderthelen.applicationk
 		actorToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == yesActorRadioButton) {
 				firstNameTextField.setDisable(false);
+				firstNameTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+				firstNameTextField.getStyleClass().add(this.required);
 				lastNameTextField.setDisable(false);
+				lastNameTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+				lastNameTextField.getStyleClass().add(this.required);
 				aliasTextField.setDisable(false);
 				birthdateTextField.setDisable(false);
+				birthdateTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+				birthdateTextField.getStyleClass().add(this.required);
 				birthplaceTextField.setDisable(false);
+				birthplaceTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+				birthplaceTextField.getStyleClass().add(this.required);
 				yesPremiumRadioButton.setSelected(true);
 				yesPremiumRadioButton.setDisable(true);
 				noPremiumRadioButton.setDisable(true);
 			} else {
 				firstNameTextField.setDisable(true);
+				firstNameTextField.getStyleClass().remove(this.required);
 				lastNameTextField.setDisable(true);
+				lastNameTextField.getStyleClass().remove(this.required);
 				aliasTextField.setDisable(true);
 				birthdateTextField.setDisable(true);
+				birthdateTextField.getStyleClass().remove(this.required);
 				birthplaceTextField.setDisable(true);
+				birthplaceTextField.getStyleClass().remove(this.required);
 				noPremiumRadioButton.setSelected(true);
 				yesPremiumRadioButton.setDisable(false);
 				noPremiumRadioButton.setDisable(false);
 			}
 		});
+
+		usernameTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+		emailTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+		passwordTextField.setOnKeyReleased(event -> this.Validate(event.getTarget()));
+		usernameTextField.getStyleClass().add(this.required);
+		emailTextField.getStyleClass().add(this.required);
+		passwordTextField.getStyleClass().add(this.required);
+	}
+
+
+	private void Validate(EventTarget target) {
+		TextField field = (TextField) target;
+		ObservableList<String> sc = field.getStyleClass();
+		if(field.getText().isEmpty()) {
+			if(!sc.contains(this.required)) {
+				sc.add(this.required);
+			}
+		}
+		else {
+			if(sc.contains(this.required)) {
+				sc.remove(this.required);
+			}
+		}
 	}
 
 	@Override
