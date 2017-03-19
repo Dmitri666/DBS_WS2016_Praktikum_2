@@ -8,7 +8,12 @@ import java.sql.SQLException;
 public class FollowersOnUsers extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        return null;
+        String selectQuery = "SELECT Benutzername AS \"Premiumnutzer\",Benutzername1 AS \"Folgt Premiumnutzer\" FROM Folgt";
+        if ( filter != null && ! filter .isEmpty() )
+        {
+            selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
+        }
+        return selectQuery;
     }
 
     @Override
