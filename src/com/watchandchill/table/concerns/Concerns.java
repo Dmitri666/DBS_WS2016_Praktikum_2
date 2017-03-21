@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Concerns extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Bezeichnung as Bezeichnung FROM Medienkonzern";
+        String selectQuery = "SELECT Bezeichnung AS  \"Medienkonzern\" FROM Medienkonzern";
         if ( filter != null && ! filter .isEmpty() )
         {
             selectQuery += " WHERE Bezeichnung LIKE '%" + filter + "%'";
@@ -20,21 +20,21 @@ public class Concerns extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Bezeichnung AS  \"Bezeichnung von Medienkonzern\" FROM Medienkonzern  WHERE Bezeichnung = '" + data.get("Medienkonzern.Bezeichnung") + "'";
+        return "SELECT Bezeichnung AS  \"Medienkonzern\" FROM Medienkonzern  WHERE Bezeichnung = '" + data.get("Medienkonzern.Medienkonzern") + "'";
     }
 
     @Override
     public void insertRowWithData(Data data) throws SQLException {
         PreparedStatement pstmt = Application.getInstance().getConnection().prepareStatement("INSERT INTO Medienkonzern(Bezeichnung) VALUES(?)");
-        pstmt.setObject(1, data.get("Medienkonzern.Bezeichnung von Medienkonzern"));
+        pstmt.setObject(1, data.get("Medienkonzern.Medienkonzern"));
         pstmt.executeUpdate();
     }
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Medienkonzern SET Bezeichnung = ? WHERE Bezeichnung = ?");
-        preparedStatement.setObject(1, newData.get("Medienkonzern.Bezeichnung von Medienkonzern"));
-        preparedStatement.setObject(2, oldData.get("Medienkonzern.Bezeichnung"));
+        preparedStatement.setObject(1, newData.get("Medienkonzern.Medienkonzern"));
+        preparedStatement.setObject(2, oldData.get("Medienkonzern.Medienkonzern"));
         preparedStatement.executeUpdate();
     }
 
@@ -42,7 +42,7 @@ public class Concerns extends Table {
     public void deleteRowWithData(Data data) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().
                 prepareStatement("DELETE FROM Medienkonzern WHERE Bezeichnung = ?");
-        preparedStatement.setObject (1 , data.get("Medienkonzern.Bezeichnung"));
+        preparedStatement.setObject (1 , data.get("Medienkonzern.Medienkonzern"));
         preparedStatement.executeUpdate () ;
     }
 }

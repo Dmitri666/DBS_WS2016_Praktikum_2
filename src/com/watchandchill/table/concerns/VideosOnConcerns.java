@@ -20,7 +20,7 @@ public class VideosOnConcerns extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Bezeichnung AS \"Bezeichnung von Video\",Spieldauer AS \"Spieldauer von Video\",Erscheinungsjahr AS \"Erscheinungsjahr von Video\",Informationen AS \"Informationen von Video\",Medienkonzern_Bezeichnung AS \"Bezeichnung von Medienkonzern\" FROM Video" +
+        return "SELECT Bezeichnung AS \"Video\",Spieldauer AS \"Spieldauer\",Erscheinungsjahr AS \"Erscheinungsjahr\",Informationen AS \"Informationen\",Medienkonzern_Bezeichnung AS \"Medienkonzern\" FROM Video" +
         " WHERE Bezeichnung = '" + data.get("Video.Bezeichnung") + "'";
 
     }
@@ -28,30 +28,30 @@ public class VideosOnConcerns extends Table {
     @Override
     public void insertRowWithData(Data data) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Video(Bezeichnung, Spieldauer, Erscheinungsjahr,Informationen,Medienkonzern_Bezeichnung) VALUES (?, ?, ?, ?, ?)");
-        preparedStatement.setObject(1, data.get("Video.Bezeichnung von Video"));
-        preparedStatement.setObject(2, data.get("Video.Spieldauer von Video"));
-        preparedStatement.setObject(3, data.get("Video.Erscheinungsjahr von Video"));
-        preparedStatement.setObject(4, data.get("Video.Informationen von Video"));
-        preparedStatement.setObject(5, data.get("Video.Bezeichnung von Medienkonzern"));
+        preparedStatement.setObject(1, data.get("Video.Video"));
+        preparedStatement.setObject(2, data.get("Video.Spieldauer"));
+        preparedStatement.setObject(3, data.get("Video.Erscheinungsjahr"));
+        preparedStatement.setObject(4, data.get("Video.Informationen"));
+        preparedStatement.setObject(5, data.get("Video.Medienkonzern"));
         preparedStatement.executeUpdate();
     }
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Video SET Bezeichnung = ?, Spieldauer = ? , Erscheinungsjahr = ? , Informationen = ? , Medienkonzern_Bezeichnung = ? WHERE Bezeichnung = ?");
-        preparedStatement.setObject(1, newData.get("Video.Bezeichnung von Video"));
-        preparedStatement.setObject(2, newData.get("Video.Spieldauer von Video"));
-        preparedStatement.setObject(3, newData.get("Video.Erscheinungsjahr von Video"));
-        preparedStatement.setObject(1, newData.get("Video.Informationen von Video"));
-        preparedStatement.setObject(2, newData.get("Video.Bezeichnung von Medienkonzern"));
-        preparedStatement.setObject(3, oldData.get("Video.Bezeichnung"));
+        preparedStatement.setObject(1, newData.get("Video.Video"));
+        preparedStatement.setObject(2, newData.get("Video.Spieldauero"));
+        preparedStatement.setObject(3, newData.get("Video.Erscheinungsjahro"));
+        preparedStatement.setObject(1, newData.get("Video.Informationen"));
+        preparedStatement.setObject(2, newData.get("Video.Medienkonzern"));
+        preparedStatement.setObject(3, oldData.get("Video.Video"));
         preparedStatement.executeUpdate();
     }
 
     @Override
     public void deleteRowWithData(Data data) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("DELETE FROM Video WHERE Bezeichnung = ?");
-        preparedStatement.setObject(1, data.get("Video.Bezeichnung"));
+        preparedStatement.setObject(1, data.get("Video.Video"));
         preparedStatement.executeUpdate();
     }
 }

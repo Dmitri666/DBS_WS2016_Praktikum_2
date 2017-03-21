@@ -19,13 +19,13 @@ public class Watchlists extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        String selectQuery = "SELECT Bezeichnung, Privatspharestatus AS \"Privat\"  FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
+        String selectQuery = "SELECT ID,Bezeichnung, Privatspharestatus AS \"Privat\", Benutzername AS \"Premiumnutzer\"  FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
         return selectQuery;
     }
 
     @Override
     public void insertRowWithData(Data data) throws SQLException {
-        if ((Integer) Application.getInstance().getData().get("permission") >= 1) {
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
             throw new SQLException("Nicht die notwendigen Rechte.");
         }
 
@@ -40,13 +40,13 @@ public class Watchlists extends Table {
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
-        if ((Integer) Application.getInstance().getData().get("permission") >= 1) {
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
             throw new SQLException("Nicht die notwendigen Rechte.");
         } else if (!Application.getInstance().getData().get("username").equals(oldData.get("Watchlist.Premiumnutzer"))) {
             throw new SQLException("Nicht der gleiche Nutzer.");
         }
 
-        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Watchlist SET Bezeichnung = ?, Privat = ? WHERE ID = ?");
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Watchlist SET Bezeichnung = ?, Privatspharestatus = ? WHERE ID = ?");
         preparedStatement.setObject(1, newData.get("Watchlist.Bezeichnung"));
         preparedStatement.setObject(2, newData.get("Watchlist.Privat"));
         preparedStatement.setObject(3, oldData.get("Watchlist.ID"));
@@ -55,7 +55,7 @@ public class Watchlists extends Table {
 
     @Override
     public void deleteRowWithData(Data data) throws SQLException {
-        if ((Integer) Application.getInstance().getData().get("permission") >= 2) {
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
             throw new SQLException("Nicht die notwendigen Rechte.");
         } else if (!Application.getInstance().getData().get("username").equals(data.get("Watchlist.Premiumnutzer"))) {
             throw new SQLException("Nicht der gleiche Nutzer.");

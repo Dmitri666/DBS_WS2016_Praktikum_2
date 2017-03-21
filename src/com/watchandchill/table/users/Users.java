@@ -18,7 +18,7 @@ public class Users extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Benutzername AS  \"Benutzername \", EMail AS \"EMail \"  FROM Nutzer  WHERE Benutzername = '" + data.get("Nutzer.Benutzername") + "'";
+        return "SELECT Benutzername , EMail  FROM Nutzer  WHERE Benutzername = '" + data.get("Nutzer.Benutzername") + "'";
     }
 
     @Override

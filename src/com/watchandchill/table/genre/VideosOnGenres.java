@@ -20,7 +20,7 @@ public class VideosOnGenres extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Genre_Bezeichnung AS  \"Bezeichnung von Genre\" ,Video_Bezeichnung AS  \"Bezeichnung von Video\" FROM Gehort_an " + "" +
+        return "SELECT Genre_Bezeichnung AS  \"Genre\" ,Video_Bezeichnung AS  \"Video\" FROM Gehort_an " + "" +
                 " WHERE Genre_Bezeichnung = '" + data.get("Gehort_an.Genre") + "' AND Video_Bezeichnung = '"  + data.get("Gehort_an.Video") + "'" ;
 
     }
@@ -28,16 +28,16 @@ public class VideosOnGenres extends Table {
     @Override
     public void insertRowWithData(Data data) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Gehort_an(Genre_Bezeichnung, Video_Bezeichnung) VALUES (?, ?)");
-        preparedStatement.setObject(1, data.get("Gehort_an.Bezeichnung von Genre"));
-        preparedStatement.setObject(2, data.get("Gehort_an.Bezeichnung von Video"));
+        preparedStatement.setObject(1, data.get("Gehort_an.Genre"));
+        preparedStatement.setObject(2, data.get("Gehort_an.Video"));
         preparedStatement.executeUpdate();
     }
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Gehort_an SET Genre_Bezeichnung = ?, Video_Bezeichnung = ? WHERE Genre_Bezeichnung = ? AND Video_Bezeichnung = ?");
-        preparedStatement.setObject(1, newData.get("Gehort_an.Genre_Bezeichnung"));
-        preparedStatement.setObject(2, newData.get("Gehort_an.Video_Bezeichnung"));
+        preparedStatement.setObject(1, newData.get("Gehort_an.Genre"));
+        preparedStatement.setObject(2, newData.get("Gehort_an.Video"));
         preparedStatement.setObject(3, oldData.get("Gehort_an.Genre"));
         preparedStatement.setObject(4, oldData.get("Gehort_an.Video"));
         preparedStatement.executeUpdate();
