@@ -2,7 +2,9 @@ package com.watchandchill.table.users;
 
 import com.alexanderthelen.applicationkit.database.Data;
 import com.alexanderthelen.applicationkit.database.Table;
+import com.watchandchill.Application;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FollowersOnUsers extends Table {
@@ -18,12 +20,15 @@ public class FollowersOnUsers extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return null;
+        return "SELECT Benutzername AS \"Premiumnutzer\",Benutzername1 AS \"Folgt Premiumnutzer\" FROM Folgt  WHERE Benutzername = '" + data.get("Folgt.Premiumnutzer") + "' AND Benutzername1 = '" + data.get("Folgt.Folgt Premiumnutzer") + "'";
     }
 
     @Override
     public void insertRowWithData(Data data) throws SQLException {
-        throw new SQLException(getClass().getName() + ".insertRowWithData(Data) nicht implementiert.");
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Folgt(Benutzername, Benutzername1) VALUES (?, ?)");
+        preparedStatement.setObject(1, data.get("Folgt.Premiumnutzer"));
+        preparedStatement.setObject(2, data.get("Folgt.Folgt Premiumnutzer"));
+        preparedStatement.executeUpdate();
     }
 
     @Override

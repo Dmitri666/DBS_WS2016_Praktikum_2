@@ -40,8 +40,8 @@ public class VideosOnConcerns extends Table {
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Video SET Bezeichnung = ?, Spieldauer = ? , Erscheinungsjahr = ? , Informationen = ? , Medienkonzern_Bezeichnung = ? WHERE Bezeichnung = ?");
         preparedStatement.setObject(1, newData.get("Video.Video"));
-        preparedStatement.setObject(2, newData.get("Video.Spieldauero"));
-        preparedStatement.setObject(3, newData.get("Video.Erscheinungsjahro"));
+        preparedStatement.setObject(2, newData.get("Video.Spieldauer"));
+        preparedStatement.setObject(3, newData.get("Video.Erscheinungsjahr"));
         preparedStatement.setObject(1, newData.get("Video.Informationen"));
         preparedStatement.setObject(2, newData.get("Video.Medienkonzern"));
         preparedStatement.setObject(3, oldData.get("Video.Video"));
@@ -51,7 +51,7 @@ public class VideosOnConcerns extends Table {
     @Override
     public void deleteRowWithData(Data data) throws SQLException {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("DELETE FROM Video WHERE Bezeichnung = ?");
-        preparedStatement.setObject(1, data.get("Video.Video"));
+        preparedStatement.setObject(1, data.get("Video.Bezeichnung"));
         preparedStatement.executeUpdate();
     }
 }
