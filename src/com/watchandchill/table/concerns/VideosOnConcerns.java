@@ -10,10 +10,10 @@ import java.sql.SQLException;
 public class VideosOnConcerns extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Bezeichnung,Spieldauer,Erscheinungsjahr,Informationen,Medienkonzern_Bezeichnung AS \"Medienkonzern\" FROM Video";
+        String selectQuery = "SELECT Bezeichnung,Spieldauer,Erscheinungsjahr,Informationen,Medienkonzern_Bezeichnung AS Medienkonzern FROM Video";
         if ( filter != null && ! filter .isEmpty() )
         {
-            selectQuery += " WHERE Bezeichnung LIKE '%" + filter + "%'";
+            selectQuery += " WHERE Medienkonzern_Bezeichnung LIKE '%" + filter + "%'";
         }
         return selectQuery;
     }

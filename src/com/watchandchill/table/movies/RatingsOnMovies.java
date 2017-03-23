@@ -10,17 +10,17 @@ import java.sql.SQLException;
 public class RatingsOnMovies extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Benutzername,Bezeichnung as \"Film\",Bewertung FROM Bewertet";
+        String selectQuery = "SELECT Benutzername,Bewertung,Bezeichnung as Film FROM Bewertet";
         if ( filter != null && ! filter .isEmpty() )
         {
-            selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
+            selectQuery += " WHERE Film LIKE '%" + filter + "%'";
         }
         return selectQuery;
     }
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Benutzername,Bezeichnung as \"Film\",Bewertung FROM Bewertet  WHERE Benutzername = '" + data.get("Bewertet.Benutzername") + "' AND Bezeichnung = '" + data.get("Bewertet.Film") + "'";
+        return "SELECT Benutzername,Bezeichnung as Film,Bewertung FROM Bewertet  WHERE Benutzername = '" + data.get("Bewertet.Benutzername") + "' AND Bezeichnung = '" + data.get("Bewertet.Film") + "'";
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Concerns extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Bezeichnung AS  \"Medienkonzern\" FROM Medienkonzern";
+        String selectQuery = "SELECT Bezeichnung AS  Medienkonzern FROM Medienkonzern";
         if ( filter != null && ! filter .isEmpty() )
         {
             selectQuery += " WHERE Bezeichnung LIKE '%" + filter + "%'";

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ActorsOnUsers extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Benutzername,Vorname,Nachname,Kunstlername,Geburtsdatum,Geburtsort FROM Schauspieler";
+        String selectQuery = "SELECT Vorname,Nachname,Kunstlername,Geburtsdatum,Geburtsort,Benutzername FROM Schauspieler";
         if ( filter != null && ! filter .isEmpty() )
         {
             selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class VideosOnGenres extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT Genre_Bezeichnung AS  \"Genre\" ,Video_Bezeichnung AS  \"Video\" FROM Gehort_an ";
+        String selectQuery = "SELECT Video_Bezeichnung AS  Video ,Genre_Bezeichnung AS  Genre  FROM Gehort_an ";
         if ( filter != null && ! filter .isEmpty() )
         {
             selectQuery += " WHERE Genre LIKE '%" + filter + "%'";
@@ -20,7 +20,7 @@ public class VideosOnGenres extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT Genre_Bezeichnung AS  \"Genre\" ,Video_Bezeichnung AS  \"Video\" FROM Gehort_an " + "" +
+        return "SELECT Genre_Bezeichnung AS  Genre ,Video_Bezeichnung AS  Video FROM Gehort_an " +
                 " WHERE Genre_Bezeichnung = '" + data.get("Gehort_an.Genre") + "' AND Video_Bezeichnung = '"  + data.get("Gehort_an.Video") + "'" ;
 
     }
