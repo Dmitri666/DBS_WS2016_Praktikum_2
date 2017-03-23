@@ -20,11 +20,15 @@ public class Serials extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        return "SELECT ID,Serienname FROM Serie  WHERE Bezeichnung = " + data.get("Serie.ID") ;
+        return "SELECT ID,Serienname FROM Serie  WHERE ID = " + data.get("Serie.ID");
     }
 
     @Override
     public void insertRowWithData(Data data) throws SQLException {
+        if ((Integer) Application.getInstance().getData().get("permission") > 0) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        }
+
         PreparedStatement pstmt = Application.getInstance().getConnection().prepareStatement("INSERT INTO Serie(Serienname) VALUES(?)");
         pstmt.setObject(1, data.get("Serie.Serienname"));
         pstmt.executeUpdate();
@@ -32,6 +36,10 @@ public class Serials extends Table {
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
+        if ((Integer) Application.getInstance().getData().get("permission") > 0) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        }
+
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Serie SET Serienname = ? WHERE ID = ?");
         preparedStatement.setObject(1, newData.get("Serie.Serienname"));
         preparedStatement.setObject(2, oldData.get("Serie.ID"));
@@ -40,6 +48,10 @@ public class Serials extends Table {
 
     @Override
     public void deleteRowWithData(Data data) throws SQLException {
+        if ((Integer) Application.getInstance().getData().get("permission") > 0) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        }
+
         PreparedStatement preparedStatement = Application.getInstance().getConnection().
                 prepareStatement("DELETE FROM Serie WHERE ID = ?");
         preparedStatement.setObject (1 , data.get("Serie.ID"));

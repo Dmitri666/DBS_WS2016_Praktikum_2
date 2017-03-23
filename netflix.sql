@@ -1,6 +1,6 @@
 -- PRAGMA Anweisungen
 
-PRAGMA encoding = UTF-8;
+PRAGMA encoding = "UTF-8";
 PRAGMA foreign_keys = ON;
 PRAGMA auto_vacuum = 1;
 PRAGMA automatic_index = ON;
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Schauspieler
     Vorname      VARCHAR NOT NULL,
     Nachname     VARCHAR NOT NULL,
     Kunstlername VARCHAR,
-    Geburtsdatum DATE    NOT NULL,
+    Geburtsdatum VARCHAR NOT NULL,
     Geburtsort   VARCHAR NOT NULL,
     FOREIGN KEY (
         Benutzername
@@ -112,7 +112,12 @@ CREATE TABLE IF NOT EXISTS Staffel
         SerieID
     )
     REFERENCES Serie (ID) ON DELETE CASCADE
-                          ON UPDATE CASCADE
+                          ON UPDATE CASCADE,
+
+    UNIQUE (
+        Staffelnummer ,
+        SerieID
+    )
 );
 CREATE TABLE IF NOT EXISTS Folge
 (

@@ -26,7 +26,7 @@ public class RatingsOnMovies extends Table {
     @Override
     public void insertRowWithData(Data data) throws SQLException {
         PreparedStatement pstmt = Application.getInstance().getConnection().prepareStatement("INSERT INTO Bewertet(Benutzername,Bezeichnung,Bewertung) VALUES(?,?,?)");
-        pstmt.setObject(1, Application.getInstance().getData().get("username"));
+        pstmt.setString(1, Application.getInstance().getData().get("username").toString());
         pstmt.setObject(2, data.get("Bewertet.Film"));
         pstmt.setObject(3, data.get("Bewertet.Bewertung"));
         pstmt.executeUpdate();
@@ -37,10 +37,10 @@ public class RatingsOnMovies extends Table {
         if (!Application.getInstance().getData().get("username").equals(oldData.get("Bewertet.Benutzername"))) {
             throw new SQLException("Nicht der gleiche Nutzer.");
         }
-        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Bewertet SET Bewertung = ? WHERE Benutzername = ? AND Bewertung = ?");
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Bewertet SET Bewertung = ? WHERE Benutzername = ? AND Bezeichnung = ?");
         preparedStatement.setObject(1, newData.get("Bewertet.Bewertung"));
         preparedStatement.setObject(2, oldData.get("Bewertet.Benutzername"));
-        preparedStatement.setObject(2, oldData.get("Bewertet.Film"));
+        preparedStatement.setObject(3, oldData.get("Bewertet.Film"));
         preparedStatement.executeUpdate();
     }
 

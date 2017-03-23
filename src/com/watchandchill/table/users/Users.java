@@ -2,7 +2,9 @@ package com.watchandchill.table.users;
 
 import com.alexanderthelen.applicationkit.database.Data;
 import com.alexanderthelen.applicationkit.database.Table;
+import com.watchandchill.Application;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Users extends Table {
@@ -11,7 +13,7 @@ public class Users extends Table {
         String selectQuery = "SELECT Benutzername,EMail FROM Nutzer";
         if ( filter != null && ! filter .isEmpty() )
         {
-            selectQuery += " WHERE Bezeichnung LIKE '%" + filter + "%'";
+            selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
         }
         return selectQuery;
     }
@@ -28,7 +30,18 @@ public class Users extends Table {
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
-        throw new SQLException(getClass().getName() + ".updateRowWithData(Data, Data) nicht implementiert.");
+        if (!Application.getInstance().getData().get("username").equals(oldData.get("Nutzer.Benutzername"))) {
+            throw new SQLException("Nicht der gleiche Nutzer.");
+        }
+
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Nutzer SET Benutzername = ? , EMail = ? WHERE Benutzername = ?");
+        preparedStatement.setObject(1, newData.get("Nutzer.Benutzername"));
+        preparedStatement.setObject(2, newData.get("Nutzer.EMail"));
+        preparedStatement.setObject(3, oldData.get("Nutzer.Benutzername"));
+
+        preparedStatement.executeUpdate();
+
+        Application.getInstance().getData().replace("username",newData.get("Nutzer.Benutzername"));
     }
 
     @Override

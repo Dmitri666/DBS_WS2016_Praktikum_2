@@ -89,8 +89,8 @@ public class AuthenticationViewController extends com.alexanderthelen.applicatio
 				} else {
 					pstmt2.setNull(4, Types.VARCHAR);
 				}
-				Date date = Date.valueOf(data.get("birthdate").toString());
-				pstmt2.setDate(5, date);
+
+				pstmt2.setString(5, data.get("birthdate").toString());
 				pstmt2.setString(6, data.get("birthplace").toString());
 
 				pstmt2.executeUpdate();

@@ -25,19 +25,41 @@ public class FollowersOnUsers extends Table {
 
     @Override
     public void insertRowWithData(Data data) throws SQLException {
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        }
+
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("INSERT INTO Folgt(Benutzername, Benutzername1) VALUES (?, ?)");
-        preparedStatement.setObject(1, data.get("Folgt.Premiumnutzer"));
+        preparedStatement.setObject(1, Application.getInstance().getData().get("username"));
         preparedStatement.setObject(2, data.get("Folgt.Folgt Premiumnutzer"));
         preparedStatement.executeUpdate();
     }
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
-        throw new SQLException(getClass().getName() + ".updateRowWithData(Data, Data) nicht implementiert.");
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        } else if (!Application.getInstance().getData().get("username").equals(oldData.get("Folgt.Premiumnutzer"))) {
+            throw new SQLException("Nicht der gleiche Nutzer.");
+        }
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Folgt SET Benutzername1 = ? WHERE Benutzername = ? AND Benutzername1 = ? ");
+        preparedStatement.setObject(1, newData.get("Folgt.Folgt Premiumnutzer"));
+        preparedStatement.setObject(2, oldData.get("Folgt.Premiumnutzer"));
+        preparedStatement.setObject(3, oldData.get("Folgt.Folgt Premiumnutzer"));
+        preparedStatement.executeUpdate();
     }
 
     @Override
     public void deleteRowWithData(Data data) throws SQLException {
-        throw new SQLException(getClass().getName() + ".deleteRowWithData(Data) nicht implementiert.");
+        if ((Integer) Application.getInstance().getData().get("permission") > 1) {
+            throw new SQLException("Nicht die notwendigen Rechte.");
+        } else if (!Application.getInstance().getData().get("username").equals(data.get("Folgt.Premiumnutzer"))) {
+            throw new SQLException("Nicht der gleiche Nutzer.");
+        }
+
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("DELETE FROM Folgt WHERE Benutzername = ? AND Benutzername1 = ?");
+        preparedStatement.setObject(1, data.get("Folgt.Premiumnutzer"));
+        preparedStatement.setObject(2, data.get("Folgt.Folgt Premiumnutzer"));
+        preparedStatement.executeUpdate();
     }
 }

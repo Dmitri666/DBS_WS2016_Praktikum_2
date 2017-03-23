@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Watchlists extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        String selectQuery = "SELECT ID, Bezeichnung AS Titel, Privatspharestatus AS \"Privat?\", Benutzername AS \"Premiumnutzer\" FROM Watchlist";
+        String selectQuery = "SELECT ID, Bezeichnung AS Titel, Privatspharestatus AS \"Privat?\", Benutzername AS Nutzer FROM Watchlist";
         if (filter != null && !filter.isEmpty()) {
             selectQuery += " WHERE Benutzername LIKE '%" + filter + "%'";
         }
@@ -19,7 +19,7 @@ public class Watchlists extends Table {
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
-        String selectQuery = "SELECT ID,Bezeichnung, Privatspharestatus AS \"Privat\", Benutzername AS \"Premiumnutzer\"  FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
+        String selectQuery = "SELECT ID AS \"ID von Watchlist\", Bezeichnung, Privatspharestatus AS Privat, Benutzername AS Premiumnutzer FROM Watchlist WHERE ID = " + data.get("Watchlist.ID");
         return selectQuery;
     }
 
@@ -49,7 +49,7 @@ public class Watchlists extends Table {
         PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Watchlist SET Bezeichnung = ?, Privatspharestatus = ? WHERE ID = ?");
         preparedStatement.setObject(1, newData.get("Watchlist.Bezeichnung"));
         preparedStatement.setObject(2, newData.get("Watchlist.Privat"));
-        preparedStatement.setObject(3, oldData.get("Watchlist.ID"));
+        preparedStatement.setObject(3, oldData.get("Watchlist.ID von Watchlist"));
         preparedStatement.executeUpdate();
     }
 
