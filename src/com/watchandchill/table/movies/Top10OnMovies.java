@@ -8,7 +8,10 @@ import java.sql.SQLException;
 public class Top10OnMovies extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
-        return null;
+        return "SELECT Bezeichnung AS Film,sum(Bewertung) * 1.0 /(count(Bewertung) * 1.0) AS Bewertung FROM Bewertet GROUP BY Bezeichnung ORDER BY Bewertung DESC LIMIT 10";
+        //String selectQuery = "SELECT  Bezeichnung as Titel FROM Film F, Bewertet B WHERE F.Bezeichnung = B.Bezeichnung GROUP BY  LIMIT 10";
+
+        //return selectQuery;
     }
 
     @Override
