@@ -12,19 +12,19 @@ public class Account extends Table {
     @Override
     public String getSelectQueryForTableWithFilter(String filter) throws SQLException {
         if ((Integer) Application.getInstance().getData().get("permission") > 0) {
-            return "SELECT Benutzername , EMail, Passwort  FROM Nutzer WHERE Benutzername = '" + Application.getInstance().getData().get("username") + "'";
+            return "SELECT Benutzername , EMail, Passwort , " +  Application.getInstance().getData().get("permission") + "  AS Rechte FROM Nutzer WHERE Benutzername = '" + Application.getInstance().getData().get("username") + "'";
         }
         else {
-            return "SELECT N.Benutzername , N.EMail, N.Passwort , P.Vorname , P.Nachname, P.Kunstlername, P.Geburtsdatum , P.Geburtsort FROM Nutzer N, Schauspieler P WHERE N.Benutzername = P.Benutzername AND N.Benutzername = '" + Application.getInstance().getData().get("username") + "'";
+            return "SELECT N.Benutzername , N.EMail, N.Passwort , P.Vorname , P.Nachname, P.Kunstlername, P.Geburtsdatum , P.Geburtsort , " +  Application.getInstance().getData().get("permission") + "  AS Rechte FROM Nutzer N, Schauspieler P WHERE N.Benutzername = P.Benutzername AND N.Benutzername = '" + Application.getInstance().getData().get("username") + "'";
         }
     }
 
     @Override
     public String getSelectQueryForRowWithData(Data data) throws SQLException {
         if ((Integer) Application.getInstance().getData().get("permission") > 0) {
-            return "SELECT Benutzername , EMail, Passwort  FROM Nutzer WHERE Benutzername = '" + Application.getInstance().getData().get("username") + "'";
+            return "SELECT Benutzername , EMail, Passwort, " +  Application.getInstance().getData().get("permission") + "  AS Rechte  FROM Nutzer WHERE Benutzername = '" + Application.getInstance().getData().get("username") + "'";
         }  else {
-            return "SELECT N.Benutzername , N.EMail, N.Passwort , P.Vorname , P.Nachname, P.Kunstlername, P.Geburtsdatum , P.Geburtsort FROM Nutzer N, Schauspieler P WHERE N.Benutzername = P.Benutzername AND N.Benutzername = '" + Application.getInstance().getData().get("username") + "'";
+            return "SELECT N.Benutzername , N.EMail, N.Passwort , P.Vorname , P.Nachname, P.Kunstlername, P.Geburtsdatum , P.Geburtsort ," +  Application.getInstance().getData().get("permission") + "  AS Rechte FROM Nutzer N, Schauspieler P WHERE N.Benutzername = P.Benutzername AND N.Benutzername = '" + Application.getInstance().getData().get("username") + "'";
         }
     }
 
@@ -37,11 +37,13 @@ public class Account extends Table {
 
     @Override
     public void updateRowWithData(Data oldData, Data newData) throws SQLException {
-        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Nutzer SET EMail = ?,Passwort = ? WHERE Benutzername = ?");
-        preparedStatement.setObject(1, newData.get("Nutzer.EMail"));
-        preparedStatement.setObject(2, newData.get("Nutzer.Passwort"));
-        preparedStatement.setObject(3, Application.getInstance().getData().get("username"));
+        PreparedStatement preparedStatement = Application.getInstance().getConnection().prepareStatement("UPDATE Nutzer SET Benutzername = ? ,EMail = ?,Passwort = ? WHERE Benutzername = ?");
+        preparedStatement.setObject(1, newData.get("Nutzer.Benutzername"));
+        preparedStatement.setObject(2, newData.get("Nutzer.EMail"));
+        preparedStatement.setObject(3, newData.get("Nutzer.Passwort"));
+        preparedStatement.setObject(4, Application.getInstance().getData().get("username"));
         preparedStatement.executeUpdate();
+        Application.getInstance().getData().replace("username",newData.get("Nutzer.Benutzername"));
 
         if ((Integer) Application.getInstance().getData().get("permission") == 0) {
 
