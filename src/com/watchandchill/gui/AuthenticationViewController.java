@@ -97,6 +97,7 @@ public class AuthenticationViewController extends com.alexanderthelen.applicatio
 			}
 
 			conn.getRawConnection().commit();
+			conn.getRawConnection().setAutoCommit(true);
 		}
 		catch (Exception ex) {
 			try {
